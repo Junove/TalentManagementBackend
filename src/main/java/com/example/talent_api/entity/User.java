@@ -8,19 +8,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="USERS")
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     long id;
     
-    @Column(name="USERNAME")
+    @Column(name="username")
     String username;
 
-    @Column(name="PASSWORD")
+    @Column(name="password")
     String password;
 
-    @Column(name="TYPE")
+    @Column(name="type")
     String type;
 
 
