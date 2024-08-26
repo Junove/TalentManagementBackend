@@ -28,8 +28,8 @@ public class UserController {
 
     // Read Operation
     @GetMapping("/users/{id}")
-    public User getUserById(@PathVariable("id") Long id) {
-        return userRepository.findById(id).get();
+    public Optional<User> getUserById(@PathVariable("id") Long id) {
+        return userRepository.findById(id);
     }
 
     // Create Operation
