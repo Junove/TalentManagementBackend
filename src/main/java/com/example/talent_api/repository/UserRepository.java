@@ -6,5 +6,6 @@ import com.example.talent_api.entity.User;
 
 public interface UserRepository extends CrudRepository<User, Long>{
 
-    
+    // This method will automatically be translated to a JPQL query
+	  User findByUsername(String username);
 } 
