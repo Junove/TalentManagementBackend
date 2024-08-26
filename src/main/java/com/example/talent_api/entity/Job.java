@@ -1,4 +1,4 @@
-package main.java.com.example.talent_api.entity;
+package com.example.talent_api.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GenerationType;

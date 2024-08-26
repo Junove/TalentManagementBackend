@@ -1,4 +1,4 @@
-package main.java.com.example.talent_api.controllers;
+package com.example.talent_api.controllers;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -42,15 +42,15 @@ public class JobsController {
 
 	// }
 	@GetMapping("/{id}")
-	public String getJobById(long id){
+	public String getJobById(@PathVariable("id") long id){
 		return "id specific job";
 	}
 
-	// @GetMapping("/{manager_id}")
-	// public Optional<Job> getJobByManagerId(@PathVariable("managerId") String id) {
+	// @GetMapping("/managerspec/{manager_id}")
+	// public Optional<Job> getJobByManagerId(@PathVariable("manager_Id") String id) {
 	// }
-	@GetMapping("/{manager_id}")
-	public String getJobByManagerId(long id){
+	@GetMapping("/managerspec/{manager_id}")
+	public String getJobByManagerId(@PathVariable("manager_id") long id){
 		return "managerid specific job";
 	}
 	
@@ -60,7 +60,7 @@ public class JobsController {
 
 	// }
 	@PostMapping
-	public String addJob(Job newJob){
+	public String addJob(@RequestBody Job newJob){
 		return "come here to add/post a job";
 	}
 
@@ -70,7 +70,7 @@ public class JobsController {
 		
 	// }
 	@PutMapping("/{id}")
-	public String putJob(Job newJob){
+	public String putJob(@RequestBody Job newJob){
 		return "putting a job";
 	}
 
@@ -79,7 +79,7 @@ public class JobsController {
 
 	// }
 	@DeleteMapping("/{id}")
-	public String deleteJobByID(long id){
+	public String deleteJobByID(@PathVariable("id") long id){
 		return "come here to delete job";
 	}
 
