@@ -1,4 +1,4 @@
-package com.example.talent_api.domain;
+package com.example.talent_api.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
