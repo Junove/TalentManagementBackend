@@ -23,10 +23,6 @@ public class User {
     @Column(name="type", length = 20)
     String type;
 
-    public User() {
-
-    }
-
     public long getId() {
         return this.id;
     }
