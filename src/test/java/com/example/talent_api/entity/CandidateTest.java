@@ -1,4 +1,4 @@
-package com.example.talent_api.repository;
+package com.example.talent_api.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
