@@ -19,46 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.apple.eawt.Application;
-import com.webage.Customers.Customer;
-import com.webage.repository.CustomersRepository;
+//import com.apple.eawt.Application;
+
 
 import jakarta.annotation.PostConstruct;
 
 @RestController
 @RequestMapping("/applications")
 public class JobApplicationsController {
-	@GetMapping
-	public Iterable<Application> getAll() {
-	}
-
-	@GetMapping("/{id}")
-	public Optional<Application> getApplicaitonById(@PathVariable("id") long id) {
-
-	}
-
-	@GetMapping("/findbyManager/{managerId}")
-	public Optional<Application> getApplicationByManager(@PathVariable("managerId") String id) {
-	}
-
-	@GetMapping("/findbyJobID/{jobId}")
-	public Optional<Application> getApplicationByManager(@PathVariable("JobId") String id) {
-	}
-
-	@PostMapping
-	public ResponseEntity<?> addApplication(@RequestBody Application newApplication, UriComponentsBuilder uri) {
-
-	}
-
-	@PutMapping("/{id}")
-	public ResponseEntity<?> putApplication(@RequestBody Application newApplication,
-			@PathVariable("id") long id){
-
-	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteApplicatoinById(@PathVariable("id") long id) {
-
-	}
+	
 
 }
