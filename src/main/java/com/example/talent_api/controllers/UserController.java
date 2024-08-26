@@ -20,25 +20,25 @@ public class UserController {
 
     // Read Operation
     @GetMapping("/users/{id}")
-    public String getCandidateById(@PathVariable("id") Long id) {
+    public String getUserById(@PathVariable("id") Long id) {
         return "User with ID: " + id;
     }
 
     // Create Operation
     @PostMapping("/users")
-    public String addCandidate(@RequestBody String candidate) {
+    public String addUser(@RequestBody String user) {
         return "User added";
     }
 
     // Update Operation
     @PutMapping("/users/{id}")
-    public String updateCandidate(@PathVariable Long id, @RequestBody String candidate) {
+    public String updateUser(@PathVariable Long id, @RequestBody String user) {
         return "User updated";
     }
 
     // Delete Operation
     @DeleteMapping("/users/{id}")
-    public String deleteCandidate(@PathVariable Long id) {
+    public String deleteUser(@PathVariable Long id) {
         return "User deleted";
     }
 }
