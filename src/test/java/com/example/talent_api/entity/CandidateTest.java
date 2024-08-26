@@ -7,9 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.example.talent_api.entity.Candidate;
-import com.example.talent_api.entity.User;
-
 @SpringBootTest
 public class CandidateTest {
 
