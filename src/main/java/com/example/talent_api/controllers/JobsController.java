@@ -1,4 +1,4 @@
-package com.example.talent_api.controllers;
+package main.java.com.example.talent_api.controllers;
 
 import java.net.URI;
 import java.util.ArrayList;
