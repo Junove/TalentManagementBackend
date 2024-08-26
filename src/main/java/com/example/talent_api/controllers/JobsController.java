@@ -60,8 +60,12 @@ public class JobsController {
 	@PostMapping
 	public ResponseEntity<?> addJob(@RequestBody Job newJob, UriComponentsBuilder uri) {
 
-		
-		repo.save(newJob);
+		if(newJob.getJob_description() == null || newJob.getJob_title() == null || newJob.getDepartment() == null ||
+		newJob.getAdditional_information() == null || newJob.getManager_id() != 0){
+			return ResponseEntity.badRequest().build();
+
+
+		}
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 		.buildAndExpand(newJob.getId()).toUri();
 		ResponseEntity<?> response = ResponseEntity.created(location).build();
@@ -71,7 +75,7 @@ public class JobsController {
 
 	}
 	
-
+ 
 	// @PutMapping("/{id}")
 	// public ResponseEntity<?> putJob(@RequestBody Job newJob,
 	// 		@PathVariable("id") long id){
