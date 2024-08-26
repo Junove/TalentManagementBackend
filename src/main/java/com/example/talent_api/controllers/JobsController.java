@@ -18,25 +18,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 
 
 import jakarta.annotation.PostConstruct;
 
 import com.example.talent_api.entity.Job;
+import com.example.talent_api.repository.JobRepository;
 
 
 @RestController
 @RequestMapping("/jobs")
 public class JobsController {
-	// @GetMapping
-	// public Iterable<Job> getAll() {
-		
-	// }
-	@GetMapping
-	public String getAll(){
-		return "list of users";
-	}
+	@Autowired
+	JobRepository repo;
 
+	@GetMapping
+	public Iterable<Job> getAll() {
+		return repo.findAll();
+		
+	}
 	// @GetMapping("/{id}")
 	// public Optional<Job> getJobById(@PathVariable("id") long id) {
 
@@ -55,14 +57,20 @@ public class JobsController {
 	}
 	
 
-	// @PostMapping
-	// public ResponseEntity<?> addJob(@RequestBody Job newJob, UriComponentsBuilder uri) {
-
-	// }
 	@PostMapping
-	public String addJob(@RequestBody Job newJob){
-		return "come here to add/post a job";
+	public ResponseEntity<?> addJob(@RequestBody Job newJob, UriComponentsBuilder uri) {
+
+		
+		repo.save(newJob);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+		.buildAndExpand(newJob.getId()).toUri();
+		ResponseEntity<?> response = ResponseEntity.created(location).build();
+
+
+		return response;
+
 	}
+	
 
 	// @PutMapping("/{id}")
 	// public ResponseEntity<?> putJob(@RequestBody Job newJob,
