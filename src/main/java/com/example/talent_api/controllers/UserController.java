@@ -1,8 +1,10 @@
 package com.example.talent_api.controllers;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,47 +17,59 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.talent_api.entity.User;
 import com.example.talent_api.repository.UserRepository;
 
+
 @CrossOrigin
 @RestController
 public class UserController {
+
     @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/users")
-    public Iterable<User> getAll() {
-        return userRepository.findAll();
+    public ResponseEntity<List<User>> getAll() {
+        List<User> users = (List<User>) userRepository.findAll();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     // Read Operation
     @GetMapping("/users/{id}")
-    public Optional<User> getUserById(@PathVariable("id") Long id) {
-        return userRepository.findById(id);
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        return userRepository.findById(id)
+            .map(user -> new ResponseEntity<>(user, HttpStatus.OK))  // User found
+            .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));  // User not found
     }
-
+    
     // Create Operation
     @PostMapping("/users")
-    public User addUser(@RequestBody User user) {
-        return userRepository.save(user);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User savedUser = userRepository.save(user);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
     // Update Operation
     @PutMapping("/users/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()) {
-            User userToUpdate = userOptional.get();
-            userToUpdate.setUsername(user.getUsername());
-            userToUpdate.setPassword(user.getPassword());
-            userToUpdate.setType(user.getType());
-            return userRepository.save(userToUpdate);
-        } else {
-            return null;
-        }
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        // Check if the user exists
+        return userRepository.findById(id)
+            .map(existingUser -> {
+                existingUser.setUsername(updatedUser.getUsername()); 
+                existingUser.setPassword(updatedUser.getPassword()); 
+                
+                User savedUser = userRepository.save(existingUser);
+                return new ResponseEntity<>(savedUser, HttpStatus.OK);
+            })
+            .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND)); // Return 404 if user not found
     }
 
     // Delete Operation
     @DeleteMapping("/users/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userRepository.deleteById(id);
+    public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
+        // Check if the user exists
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
