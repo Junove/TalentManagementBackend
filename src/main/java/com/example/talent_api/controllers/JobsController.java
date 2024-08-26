@@ -23,18 +23,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 import jakarta.annotation.PostConstruct;
 
 import com.example.talent_api.entity.Job;
+import com.example.talent_api.repository.JobRepository;
 
 
 @RestController
 @RequestMapping("/jobs")
 public class JobsController {
-	// @GetMapping
-	// public Iterable<Job> getAll() {
-		
-	// }
+
+	@Autowired
+	JobRepository jobRepository;
+	
 	@GetMapping
-	public String getAll(){
-		return "list of users";
+	public Iterable<Job> getAll() {
+		return jobRepository.findAll();
 	}
 
 	// @GetMapping("/{id}")

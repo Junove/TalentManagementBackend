@@ -8,51 +8,39 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 
 @Entity
-@Table(name = "JOB_LISTING")
+@Table(name = "job_listing")
 public class Job {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     long id;
 
-    @Column(name="MANAGER_ID")
+    @Column(name="manager_id")
     int manager_id; 
 
-    @Column(name="DEPARTMENT")
+    @Column(name="department")
     String department;
 
-    @Column(name="LISTING_TITLE")
+    @Column(name="listing_title")
     String listing_title;
 
-    @Column(name="DATE_LISTED")
+    @Column(name="date_listed")
     String date_listed;
 
-    @Column(name="DATE_CLOSED")
+    @Column(name="date_closed")
     String date_closed;
 
-    @Column(name="JOB_TITLE")
+    @Column(name="job_title")
     String job_title;
 
-    @Column(name="JOB_DESCRIPTION")
+    @Column(name="job_description")
     String job_decription;
 
-    @Column(name="ADDITIONAL_INFORMATION")
+    @Column(name="additional_information")
     String additional_information;
 
-    @Column(name="LISTING_STATUS")
+    @Column(name="listing_status")
     String listing_status;
-
-    public Job(int manager_id, String department, String listing_title, String date_listed, String date_closed, String job_title, String job_decription, String additional_information, String listing_status){
-        this.manager_id = manager_id;
-        this.department = department;
-        this.listing_title = listing_title;
-        this.date_listed = date_listed;
-        this.date_closed = date_closed;
-        this.job_title = job_title;
-        this.job_decription = job_decription;
-        this.additional_information = additional_information;
-        this.listing_status = listing_status;
-    }
 
     public long getId() {
         return id;
