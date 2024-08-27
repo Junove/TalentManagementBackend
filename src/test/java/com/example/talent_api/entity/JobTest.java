@@ -17,8 +17,8 @@ public class JobTest {
         job = new Job(1,
         "Sales Division",
         "Sales Associate Wanted!",
-        "August 1, 2024 at 10:00AM",
-        "October 1, 2024 at 10:00AM",
+        "2024-08-01 10:00:00",
+        "2024-10-01 10:00:00",
         "Sales Associate",
         "The candidate will participate in sales phonecalls from 9-5.",
         "Experience in sales recommended.",
@@ -86,29 +86,29 @@ public class JobTest {
     @Test
     void getDate_listed() {
         assertNotNull(job);
-        assertEquals("August 1, 2024 at 10:00AM",job.getDate_listed());
+        assertEquals("2024-08-01 10:00:00",job.getDate_listed());
     }
 
     @Test
     void setDate_listed() {
         assertNotNull(job);
-        assertEquals("August 1, 2024 at 10:00AM",job.getDate_listed());
-        job.setDate_listed("August 2, 2024 at 10:00AM");
-        assertEquals("August 2, 2024 at 10:00AM",job.getDate_listed());
+        assertEquals("2024-08-01 10:00:00",job.getDate_listed());
+        job.setDate_listed("2024-08-02 10:00:00");
+        assertEquals("2024-08-02 10:00:00",job.getDate_listed());
     }
 
     @Test
     void getDate_closed() {
         assertNotNull(job);
-        assertEquals("October 1, 2024 at 10:00AM",job.getDate_closed());
+        assertEquals("2024-10-01 10:00:00",job.getDate_closed());
     }
 
     @Test
     void setDate_closed() {
         assertNotNull(job);
-        assertEquals("October 1, 2024 at 10:00AM",job.getDate_closed());
-        job.setDate_closed("October 2, 2024 at 10:00AM");
-        assertEquals("October 2, 2024 at 10:00AM",job.getDate_closed());
+        assertEquals("2024-10-01 10:00:00",job.getDate_closed());
+        job.setDate_closed("2024-10-02 10:00:00");
+        assertEquals("2024-10-02 10:00:00",job.getDate_closed());
     }
 
     @Test

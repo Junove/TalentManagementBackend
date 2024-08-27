@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.talent_api.entity.Job;
+import com.example.talent_api.repository.JobRepository;
+
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -37,7 +41,7 @@ public class JobsController {
 	}
 	@GetMapping("/{id}")
 	public  ResponseEntity <Job> getJobById(@PathVariable("id") long id) {
-		Job tempJob = repo.findById(id);
+		Job tempJob = repo.findFirstById(id);
 		if(tempJob != null){
 			return new ResponseEntity<>(tempJob, HttpStatus.OK);
 		}else{
@@ -84,7 +88,7 @@ public class JobsController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Job> updateJob(@RequestBody Job updatedJob, @PathVariable("id") Long id) {
 
-		Job existingJob = repo.findById(id);
+		Job existingJob = repo.findFirstById(id);
 		
 		if (existingJob != null) {
 			if (updatedJob.getDepartment() != null) {
@@ -119,7 +123,7 @@ public class JobsController {
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteJobById(@PathVariable("id") Long id) {
-		Job deleteJob = repo.findById(id);
+		Job deleteJob = repo.findFirstById(id);
 		if (deleteJob != null) {
 			repo.delete(deleteJob);
 			return ResponseEntity.noContent().build();
