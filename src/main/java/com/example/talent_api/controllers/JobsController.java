@@ -55,7 +55,10 @@ public class JobsController {
 	@PostMapping
 	public ResponseEntity<?> addJob(@RequestBody Job newJob, UriComponentsBuilder uri) {
 
-		// Hand logic to handle verify response
+		if(newJob.getAdditional_information() == null || newJob.getJob_description() == null ||
+		newJob.getJob_title() == null || newJob.getDepartment() == null || newJob.getManager_id() == 0){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 
 		repo.save(newJob);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -68,7 +71,7 @@ public class JobsController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Job> updateJob(@RequestBody Job updatedJob, @PathVariable("id") Long id) {
-		// Fetch the existing job from the repository
+
 		Job existingJob = repo.findById(id);
 		
 		if (existingJob != null) {
