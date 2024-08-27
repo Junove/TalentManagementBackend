@@ -14,15 +14,14 @@ public class User {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     long id;
     
-    @Column(name="username")
+    @Column(name="username", length = 50)
     String username;
 
-    @Column(name="password")
+    @Column(name="password", length = 255)
     String password;
 
-    @Column(name="type")
+    @Column(name="type", length = 20)
     String type;
-
 
     public long getId() {
         return this.id;
