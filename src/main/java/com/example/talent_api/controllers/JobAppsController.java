@@ -37,11 +37,11 @@ public class JobAppsController {
             .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));  
 	}
 	
-	// @GetMapping("/jobapps/managerspec/{manager_id}")
-	// public ResponseEntity<List<JobApp>> getJobAppsByManagerId(@PathVariable("manager_id") Integer id) {
-	// 	List<JobApp> targetApps = (List<JobApp>) jobAppRepository.findAllByHiringManagerId(id);
-    //     return new ResponseEntity<>(targetApps, HttpStatus.OK);	
-	// }
+	@GetMapping("/jobapps/managerspec/{manager_id}")
+	public ResponseEntity<List<JobApp>> getJobAppsByManagerId(@PathVariable("manager_id") Integer id) {
+		List<JobApp> targetApps = (List<JobApp>) jobAppRepository.findAllByHiringManagerId(id);
+        return new ResponseEntity<>(targetApps, HttpStatus.OK);	
+	}
 
 
 	@GetMapping("/jobapps/jobspec/{job_id}")

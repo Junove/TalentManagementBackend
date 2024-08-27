@@ -14,6 +14,6 @@ import com.example.talent_api.entity.JobApp;
 public interface JobAppRepository extends CrudRepository<JobApp, Long> {
     public List<JobApp> findByjobId(Long jobId);
 
-    // @Query(value="SELECT ja.id AS application_id, c.full_name AS candidate_name, jl.listing_title, jl.id AS job_id, ja.date_applied, ja.application_status FROM job_application ja JOIN job_listing jl ON ja.job_id = jl.id JOIN candidate c ON ja.candidate_id = c.id WHERE jl.manager_id = :managerId;", nativeQuery = true)
-    // public List<JobApp> findAllByHiringManagerId(@Param("managerId") Integer manager_id);
+    @Query(value="SELECT ja.id, ja.candidate_id, ja.cover_letter, ja.custom_resume, c.full_name AS candidate_name, jl.listing_title, jl.id AS job_id, ja.date_applied, ja.application_status FROM job_application ja JOIN job_listing jl ON ja.job_id = jl.id JOIN candidate c ON ja.candidate_id = c.id WHERE jl.manager_id = :managerId;", nativeQuery = true)
+    public List<JobApp> findAllByHiringManagerId(@Param("managerId") Integer manager_id);
 }
