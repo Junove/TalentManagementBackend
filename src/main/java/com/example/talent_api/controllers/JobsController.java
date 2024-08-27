@@ -1,6 +1,8 @@
 package com.example.talent_api.controllers;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +27,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.example.talent_api.entity.Job;
 import com.example.talent_api.repository.JobRepository;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/jobs")
-@CrossOrigin(origins = "http://localhost:3000")
 public class JobsController {
 	@Autowired
 	JobRepository repo;
@@ -66,6 +67,15 @@ public class JobsController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
+		LocalDate currentDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String formattedDate = currentDate.format(formatter);
+
+		newJob.setDate_listed(formattedDate);
+
+
+		
+
 		repo.save(newJob);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(newJob.getId()).toUri();
@@ -99,9 +109,7 @@ public class JobsController {
 			if(updatedJob.getListing_title() != null){
 				existingJob.setListing_title(updatedJob.getListing_title());
 			}
-			if(updatedJob.getDate_closed() != null){
-				existingJob.setDate_closed(updatedJob.getDate_closed());
-			}
+			existingJob.setDate_closed(updatedJob.getDate_closed());
 			if(updatedJob.getDate_listed() != null){
 				existingJob.setDate_listed(updatedJob.getDate_listed());
 			}
