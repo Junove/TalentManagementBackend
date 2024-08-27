@@ -66,29 +66,41 @@ public class JobsController {
 
 	}
 
-@PutMapping("/{id}")
-public ResponseEntity<?> updateJob(@RequestBody Job updatedJob, @PathVariable("id") Long id) {
-    Job existingJob = repo.findById(id);
-
-    if (existingJob != null) {
-        existingJob.setDepartment(updatedJob.getDepartment());
-        existingJob.setJob_title(updatedJob.getJob_title());
-        existingJob.setJob_description(updatedJob.getJob_description());
-        existingJob.setAdditional_information(updatedJob.getAdditional_information());
-        existingJob.setListing_status(updatedJob.getListing_status());
-
-        Job savedJob = repo.save(existingJob);
-
-        return ResponseEntity.ok(savedJob);
-    } else {
-        return ResponseEntity.notFound().build();
-    }
-}
-
-
-
+	@PutMapping("/{id}")
+	public ResponseEntity<Job> updateJob(@RequestBody Job updatedJob, @PathVariable("id") Long id) {
+		// Fetch the existing job from the repository
+		Job existingJob = repo.findById(id);
+		
+		if (existingJob != null) {
+			if (updatedJob.getDepartment() != null) {
+				existingJob.setDepartment(updatedJob.getDepartment());
+			}
+			if (updatedJob.getJob_title() != null) {
+				existingJob.setJob_title(updatedJob.getJob_title());
+			}
+			if (updatedJob.getJob_description() != null) {
+				existingJob.setJob_description(updatedJob.getJob_description());
+			}
+			if (updatedJob.getAdditional_information() != null) {
+				existingJob.setAdditional_information(updatedJob.getAdditional_information());
+			}
+			if (updatedJob.getListing_status() != null) {
+				existingJob.setListing_status(updatedJob.getListing_status());
+			}
+			if(updatedJob.getListing_title() != null){
+				existingJob.setListing_title(updatedJob.getListing_title());
+			}
+		
+			repo.save(existingJob);
+			return ResponseEntity.ok(existingJob);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
 	
-	
+
+
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteJobById(@PathVariable("id") Long id) {
 		Job deleteJob = repo.findById(id);
