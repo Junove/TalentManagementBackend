@@ -10,5 +10,8 @@ import com.example.talent_api.entity.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long>{
     public Optional<User> findUserById(long id);
+
+    User findByUsername(String username);
     
-} 
+}
+

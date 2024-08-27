@@ -1,8 +1,7 @@
 package com.example.talent_api.controllers;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,68 +18,106 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
-
-import jakarta.annotation.PostConstruct;
-
 import com.example.talent_api.entity.Job;
-
+import com.example.talent_api.repository.JobRepository;
 
 @RestController
 @RequestMapping("/jobs")
+@CrossOrigin(origins = "http://localhost:3000")
 public class JobsController {
-	// @GetMapping
-	// public Iterable<Job> getAll() {
-		
-	// }
+	@Autowired
+	JobRepository repo;
+
 	@GetMapping
-	public String getAll(){
-		return "list of users";
+	public Iterable<Job> getAll() {
+		return repo.findAll();
+
 	}
-
-	// @GetMapping("/{id}")
-	// public Optional<Job> getJobById(@PathVariable("id") long id) {
-
-	// }
 	@GetMapping("/{id}")
-	public String getJobById(@PathVariable("id") long id){
-		return "id specific job";
+	public  ResponseEntity <Job> getJobById(@PathVariable("id") long id) {
+		Job tempJob = repo.findById(id);
+		if(tempJob != null){
+			return new ResponseEntity<>(tempJob, HttpStatus.OK);
+		}else{
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 
-	// @GetMapping("/managerspec/{manager_id}")
-	// public Optional<Job> getJobByManagerId(@PathVariable("manager_Id") String id) {
-	// }
+
+
 	@GetMapping("/managerspec/{manager_id}")
-	public String getJobByManagerId(@PathVariable("manager_id") long id){
-		return "managerid specific job";
+    public List<Job> getJobByManagerId(@PathVariable("manager_id") int managerId) {
+        List<Job> jobs = repo.findBymanagerID(managerId);
+        return (jobs);
+    }
+
+
+
+	@PostMapping
+	public ResponseEntity<?> addJob(@RequestBody Job newJob, UriComponentsBuilder uri) {
+
+		if(newJob.getAdditional_information() == null || newJob.getJob_description() == null ||
+		newJob.getJob_title() == null || newJob.getDepartment() == null || newJob.getManager_id() == 0){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		repo.save(newJob);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(newJob.getId()).toUri();
+		ResponseEntity<?> response = ResponseEntity.created(location).build();
+
+		return response;
+
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<Job> updateJob(@RequestBody Job updatedJob, @PathVariable("id") Long id) {
+
+		Job existingJob = repo.findById(id);
+		
+		if (existingJob != null) {
+			if (updatedJob.getDepartment() != null) {
+				existingJob.setDepartment(updatedJob.getDepartment());
+			}
+			if (updatedJob.getJob_title() != null) {
+				existingJob.setJob_title(updatedJob.getJob_title());
+			}
+			if (updatedJob.getJob_description() != null) {
+				existingJob.setJob_description(updatedJob.getJob_description());
+			}
+			if (updatedJob.getAdditional_information() != null) {
+				existingJob.setAdditional_information(updatedJob.getAdditional_information());
+			}
+			if (updatedJob.getListing_status() != null) {
+				existingJob.setListing_status(updatedJob.getListing_status());
+			}
+			if(updatedJob.getListing_title() != null){
+				existingJob.setListing_title(updatedJob.getListing_title());
+			}
+			if(updatedJob.getDate_closed() != null){
+				existingJob.setDate_closed(updatedJob.getDate_closed());
+			}
+			if(updatedJob.getDate_listed() != null){
+				existingJob.setDate_listed(updatedJob.getDate_listed());
+			}
+		
+			repo.save(existingJob);
+			return ResponseEntity.ok(existingJob);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 	
-
-	// @PostMapping
-	// public ResponseEntity<?> addJob(@RequestBody Job newJob, UriComponentsBuilder uri) {
-
-	// }
-	@PostMapping
-	public String addJob(@RequestBody Job newJob){
-		return "come here to add/post a job";
-	}
-
-	// @PutMapping("/{id}")
-	// public ResponseEntity<?> putJob(@RequestBody Job newJob,
-	// 		@PathVariable("id") long id){
-		
-	// }
-	@PutMapping("/{id}")
-	public String putJob(@RequestBody Job newJob){
-		return "putting a job";
-	}
-
-	//@DeleteMapping("/{id}")
-	// public ResponseEntity<?> deleteJobById(@PathVariable("id") long id) {
-
-	// }
 	@DeleteMapping("/{id}")
-	public String deleteJobByID(@PathVariable("id") long id){
-		return "come here to delete job";
+	public ResponseEntity<?> deleteJobById(@PathVariable("id") Long id) {
+		Job deleteJob = repo.findById(id);
+		if (deleteJob != null) {
+			repo.delete(deleteJob);
+			return ResponseEntity.noContent().build();
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+
 	}
 
 }
