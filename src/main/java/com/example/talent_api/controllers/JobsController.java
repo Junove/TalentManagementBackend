@@ -1,11 +1,8 @@
 package com.example.talent_api.controllers;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,11 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-
-
-import jakarta.annotation.PostConstruct;
 
 import com.example.talent_api.entity.Job;
 import com.example.talent_api.repository.JobRepository;
@@ -30,6 +22,7 @@ import com.example.talent_api.repository.JobRepository;
 
 @RestController
 @RequestMapping("/jobs")
+@CrossOrigin(origins = "http://localhost:3000")
 public class JobsController {
 	@Autowired
 	JobRepository repo;
