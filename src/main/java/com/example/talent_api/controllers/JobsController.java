@@ -1,6 +1,7 @@
 package com.example.talent_api.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,8 +46,8 @@ public class JobsController {
 
 
 	@GetMapping("/managerspec/{manager_id}")
-    public Iterable<Job> getJobByManagerId(@PathVariable("manager_id") int managerId) {
-        Iterable<Job> jobs = repo.findByManagerId(managerId);
+    public List<Job> getJobByManagerId(@PathVariable("manager_id") int managerId) {
+        List<Job> jobs = repo.findBymanagerID(managerId);
         return (jobs);
     }
 
@@ -101,9 +102,6 @@ public class JobsController {
 		}
 	}
 	
-
-
-
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteJobById(@PathVariable("id") Long id) {
 		Job deleteJob = repo.findById(id);

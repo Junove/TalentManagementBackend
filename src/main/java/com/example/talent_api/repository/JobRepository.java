@@ -1,5 +1,7 @@
 package com.example.talent_api.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +13,7 @@ import com.example.talent_api.entity.Job;
 public interface JobRepository extends CrudRepository<Job, Integer>{
     Job findById(Long id);
 
-    @Query(value = "SELECT * FROM JOB_LISTING WHERE MANAGER_ID = :manager_id", nativeQuery = true)
-    Iterable<Job> findByManagerId(@Param("manager_id") int managerId);
+    // @Query(value = "SELECT * FROM JOB_LISTING WHERE MANAGER_ID = :manager_id", nativeQuery = true)
+    List<Job> findBymanagerID(int managerID);
     
 }
