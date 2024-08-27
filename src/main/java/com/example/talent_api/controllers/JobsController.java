@@ -27,6 +27,7 @@ import com.example.talent_api.repository.JobRepository;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/jobs")
 public class JobsController {
 
