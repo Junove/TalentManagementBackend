@@ -3,7 +3,6 @@ package com.example.talent_api.entity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -56,7 +55,7 @@ public class JobAppTest {
     @Test
     void getCandidate_id() {
         assertNotNull(jobApp);
-        assertEquals("1",jobApp.getCandidate_id());
+        assertEquals(1,jobApp.getCandidate_id());
     }
 
     @Test
