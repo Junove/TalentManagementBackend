@@ -46,7 +46,7 @@ public class JobApp {
     }
 
     public void setCandidate_id(int candidate_id) {
-        this.candidateId = candidateId;
+        this.candidateId = candidate_id;
     }
 
     public int getJob_id() {
