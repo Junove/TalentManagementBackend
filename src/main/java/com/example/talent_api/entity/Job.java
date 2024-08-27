@@ -15,8 +15,8 @@ public class Job {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     long id;
 
-    @Column(name="MANAGER_ID")
-    int manager_id; 
+    @Column(name="Manager_ID")
+    int managerID; 
 
     @Column(name="DEPARTMENT")
     String department;
@@ -34,7 +34,7 @@ public class Job {
     String job_title;
 
     @Column(name="JOB_DESCRIPTION")
-    String job_decription;
+    String job_description;
 
     @Column(name="ADDITIONAL_INFORMATION")
     String additional_information;
@@ -42,14 +42,36 @@ public class Job {
     @Column(name="LISTING_STATUS")
     String listing_status;
 
-    public Job(int manager_id, String department, String listing_title, String date_listed, String date_closed, String job_title, String job_decription, String additional_information, String listing_status){
-        this.manager_id = manager_id;
+
+    public Job(){
+        
+    }
+
+    public Job(String department, String job_title, String job_description, String additional_information){
+        this.department = department;
+        this.job_title = job_title;
+        this.job_description = job_description;
+        this.additional_information = additional_information;
+    }
+
+    public Job(String department, String job_title, String job_description, String additional_information, String listing_status){
+        this.department = department;
+        this.job_title = job_title;
+        this.job_description = job_description;
+        this.additional_information = additional_information;
+        this.listing_status = listing_status;
+    }
+
+
+
+    public Job(int managerID, String department, String listing_title, String date_listed, String date_closed, String job_title, String job_description, String additional_information, String listing_status){
+        this.managerID = managerID;
         this.department = department;
         this.listing_title = listing_title;
         this.date_listed = date_listed;
         this.date_closed = date_closed;
         this.job_title = job_title;
-        this.job_decription = job_decription;
+        this.job_description = job_description;
         this.additional_information = additional_information;
         this.listing_status = listing_status;
     }
@@ -63,11 +85,11 @@ public class Job {
     }
 
     public int getManager_id() {
-        return manager_id;
+        return managerID;
     }
 
-    public void setManager_id(int manager_id) {
-        this.manager_id = manager_id;
+    public void setManager_id(int managerID) {
+        this.managerID = managerID;
     }
 
     public String getDepartment() {
@@ -110,12 +132,12 @@ public class Job {
         this.job_title = job_title;
     }
 
-    public String getJob_decription() {
-        return job_decription;
+    public String getJob_description() {
+        return job_description;
     }
 
-    public void setJob_decription(String job_decription) {
-        this.job_decription = job_decription;
+    public void setJob_description(String job_description) {
+        this.job_description = job_description;
     }
 
     public String getAdditional_information() {
