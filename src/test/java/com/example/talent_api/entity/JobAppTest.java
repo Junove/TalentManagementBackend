@@ -71,27 +71,32 @@ public class JobAppTest {
 
     @Test
     void testGetCover_letter() {
-        
+        assertNotNull(jobApp);
+        assertEquals("I am very qualified for this job",jobApp.getCover_letter());
     }
 
     @Test
     void testGetCustom_resume() {
-        
+        assertNotNull(jobApp);
+        assertEquals("1",jobApp.getCustom_resume());
     }
 
     @Test
     void testGetDate_applied() {
-        
+        assertNotNull(jobApp);
+        assertEquals("1",jobApp.getCandidate_id());
     }
 
     @Test
     void testGetId() {
-        
+        assertNotNull(jobApp);
+        assertEquals("1",jobApp.getCandidate_id());
     }
 
     @Test
     void testGetJob_id() {
-        
+        assertNotNull(jobApp);
+        assertEquals("1",jobApp.getCandidate_id());
     }
 
     @Test
