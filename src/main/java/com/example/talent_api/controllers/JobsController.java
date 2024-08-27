@@ -2,6 +2,8 @@ package com.example.talent_api.controllers;
 
 import java.net.URI;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,6 +62,15 @@ public class JobsController {
 		newJob.getJob_title() == null || newJob.getDepartment() == null || newJob.getManager_id() == 0){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+
+		LocalDate currentDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String formattedDate = currentDate.format(formatter);
+
+		newJob.setDate_listed(formattedDate);
+
+
+		
 
 		repo.save(newJob);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
