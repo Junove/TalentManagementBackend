@@ -37,20 +37,17 @@ public class JobAppsController {
             .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));  
 	}
 	
-	//manager_id does not exist in job_app schema, what id should be used here?
-	@GetMapping("/jobapps/managerspec/{manager_id}")
-	public ResponseEntity<JobApp> getJobAppsByManagerId(@PathVariable("manager_id") Long id) {
-		return jobAppRepository.findById(id)
-            .map(jobApp -> new ResponseEntity<>(jobApp, HttpStatus.OK))  
-            .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));  
-	}
+	// @GetMapping("/jobapps/managerspec/{manager_id}")
+	// public ResponseEntity<List<JobApp>> getJobAppsByManagerId(@PathVariable("manager_id") Long id) {
+	// 	List<JobApp> targetApps = (List<JobApp>) jobAppRepository.findByManagerId(id);
+    //     return new ResponseEntity<>(targetApps, HttpStatus.OK);	
+	// }
 
 
 	@GetMapping("/jobapps/jobspec/{job_id}")
-	public ResponseEntity<JobApp> getJobAppByJobId(@PathVariable("job_id") Long id) {
-		return jobAppRepository.findById(id)
-            .map(jobApp -> new ResponseEntity<>(jobApp, HttpStatus.OK))  
-            .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));  
+	public ResponseEntity <List<JobApp>> getJobAppByJobId(@PathVariable("job_id") Long id) {
+		List<JobApp> targetApps = (List<JobApp>) jobAppRepository.findByjobId(id);
+		return new ResponseEntity<>(targetApps, HttpStatus.OK);	
 	}
 	
 	

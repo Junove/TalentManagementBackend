@@ -19,7 +19,7 @@ public class JobApp {
     int candidate_id; 
 
     @Column(name="JOB_ID")
-    int job_id; 
+    int jobId; 
 
     @Column(name="DATE_APPLIED")
     String date_applied;
@@ -50,11 +50,11 @@ public class JobApp {
     }
 
     public int getJob_id() {
-        return job_id;
+        return jobId;
     }
 
-    public void setJob_id(int job_id) {
-        this.job_id = job_id;
+    public void setJob_id(int jobId) {
+        this.jobId = jobId;
     }
 
     public String getDate_applied() {
