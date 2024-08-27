@@ -24,13 +24,11 @@ public class Job {
     @Column(name="LISTING_TITLE")
     String listing_title;
 
-    //Format is "Month Day, Year at XX:XX(AM/PM)"
-    //ex: August 1, 2024 at 10:00AM
+    //Format is YYYY-MM-DD HH:MM:S
     @Column(name="DATE_LISTED")
     String date_listed;
 
-    //Format is "Month Day, Year at XX:XX(AM/PM)"
-    //ex: August 1, 2024 at 10:00AM
+    //Format is YYYY-MM-DD HH:MM:S
     @Column(name="DATE_CLOSED")
     String date_closed;
 
