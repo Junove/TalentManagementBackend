@@ -99,6 +99,12 @@ public class JobsController {
 			if(updatedJob.getListing_title() != null){
 				existingJob.setListing_title(updatedJob.getListing_title());
 			}
+			if(updatedJob.getDate_closed() != null){
+				existingJob.setDate_closed(updatedJob.getDate_closed());
+			}
+			if(updatedJob.getDate_listed() != null){
+				existingJob.setDate_listed(updatedJob.getDate_listed());
+			}
 		
 			repo.save(existingJob);
 			return ResponseEntity.ok(existingJob);
