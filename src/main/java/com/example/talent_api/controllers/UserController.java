@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.talent_api.entity.User;
@@ -20,19 +21,20 @@ import com.example.talent_api.repository.UserRepository;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/users")
+    @GetMapping
     public ResponseEntity<List<User>> getAll() {
         List<User> users = (List<User>) userRepository.findAll();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     // Read Operation
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         return userRepository.findById(id)
             .map(user -> new ResponseEntity<>(user, HttpStatus.OK))  // User found
@@ -40,14 +42,14 @@ public class UserController {
     }
     
     // Create Operation
-    @PostMapping("/users")
+    @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User savedUser = userRepository.save(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
     // Update Operation
-    @PutMapping("/users/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
         // Check if the user exists
         return userRepository.findById(id)
@@ -62,7 +64,7 @@ public class UserController {
     }
 
     // Delete Operation
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
         // Check if the user exists
         if (userRepository.existsById(id)) {
