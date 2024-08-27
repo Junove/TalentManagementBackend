@@ -20,6 +20,7 @@ public class User {
     @Column(name="password", length = 255)
     String password;
 
+    //Type options are "candidate", "hiring_manager", and "admin"
     @Column(name="type", length = 20)
     String type;
 
