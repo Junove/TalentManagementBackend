@@ -1,9 +1,9 @@
 package com.example.talent_api.controllers;
 
 import java.net.URI;
-import java.util.List;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -105,9 +105,7 @@ public class JobsController {
 			if(updatedJob.getListing_title() != null){
 				existingJob.setListing_title(updatedJob.getListing_title());
 			}
-			if(updatedJob.getDate_closed() != null){
-				existingJob.setDate_closed(updatedJob.getDate_closed());
-			}
+			existingJob.setDate_closed(updatedJob.getDate_closed());
 			if(updatedJob.getDate_listed() != null){
 				existingJob.setDate_listed(updatedJob.getDate_listed());
 			}
