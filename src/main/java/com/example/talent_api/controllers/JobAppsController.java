@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import com.example.talent_api.entity.JobApp;
 import com.example.talent_api.repository.JobAppRepository;
 
@@ -20,69 +22,73 @@ import com.example.talent_api.repository.JobAppRepository;
 public class JobAppsController {
 	
     @Autowired
-    private JobAppRepository jobappRepository;
+    private JobAppRepository jobAppRepository;
     
-    // @GetMapping("/jobapps")
-	// public Iterable<JobApp> getAll() {
-		
-	// }
-	@GetMapping("/jobapps")
-	public String getAll(){
-		return "list of job applications";
+    @GetMapping("/jobapps")
+	public ResponseEntity<List<JobApp>> getAll() {
+		List<JobApp> jobApps = (List<JobApp>) jobAppRepository.findAll();
+        return new ResponseEntity<>(jobApps, HttpStatus.OK);
 	}
 
-	// @GetMapping("/jobapps/{id}")
-	// public Optional<Job> getJobAppById(@PathVariable("id") long id) {
-
-	// }
 	@GetMapping("/jobapps/{id}")
-	public String getJobAppById(@PathVariable("id") long id){
-		return "id specific job";
+	public ResponseEntity<JobApp> getJobAppById(@PathVariable("id") Long id) {
+		return jobAppRepository.findById(id)
+            .map(jobApp -> new ResponseEntity<>(jobApp, HttpStatus.OK))  
+            .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));  
 	}
-
-	// @GetMapping("/jobapps/managerspec/{manager_id}")
-	// public Optional<Job> getJobAppsByManagerId(@PathVariable("manager_Id") String id) {
-	// }
+	
+	//manager_id does not exist in job_app schema, what id should be used here?
 	@GetMapping("/jobapps/managerspec/{manager_id}")
-	public String getJobAppsByManagerId(@PathVariable("manager_id") long id){
-		return "managerid specific job applications";
+	public ResponseEntity<JobApp> getJobAppsByManagerId(@PathVariable("manager_id") Long id) {
+		return jobAppRepository.findById(id)
+            .map(jobApp -> new ResponseEntity<>(jobApp, HttpStatus.OK))  
+            .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));  
 	}
 
-	// @GetMapping("/jobapps/jobspec/{job_id}")
-	// public Optional<Job> getJobAppsByManagerId(@PathVariable("manager_Id") String id) {
-	// }
+
 	@GetMapping("/jobapps/jobspec/{job_id}")
-	public String getJobAppsByJobId(@PathVariable("job_id") long id){
-		return "jobid specific job applications";
+	public ResponseEntity<JobApp> getJobAppByJobId(@PathVariable("job_id") Long id) {
+		return jobAppRepository.findById(id)
+            .map(jobApp -> new ResponseEntity<>(jobApp, HttpStatus.OK))  
+            .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));  
+	}
+	
+	
+
+	@PostMapping("/jobapps")
+	public ResponseEntity<JobApp> addJobApp(@RequestBody JobApp newJobApp) {
+		JobApp savedJobApp = jobAppRepository.save(newJobApp);
+        return new ResponseEntity<>(savedJobApp, HttpStatus.CREATED);
+	}
+
+
+	@PutMapping("/jobapps/{id}")
+	public ResponseEntity<JobApp> putJobApp(@RequestBody JobApp targetApp, @PathVariable("id") Long id){
+		return jobAppRepository.findById(id)
+            .map(currJobApp -> {
+                currJobApp.setCandidate_id(targetApp.getCandidate_id()); 
+                currJobApp.setJob_id(targetApp.getJob_id()); 
+				currJobApp.setDate_applied(targetApp.getDate_applied());
+				currJobApp.setCover_letter(targetApp.getCover_letter());
+				currJobApp.setCustom_resume(targetApp.getCustom_resume());
+				currJobApp.setApplication_status(targetApp.getApplication_status());
+                
+                JobApp savedJobApp = jobAppRepository.save(currJobApp);
+                return new ResponseEntity<>(savedJobApp, HttpStatus.OK);
+            })
+            .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
 
-	// @PostMapping("/jobapps")
-	// public ResponseEntity<?> addJobApp(@RequestBody JobApp newJob, UriComponentsBuilder uri) {
-
-	// }
-	@PostMapping("/jobapps")
-	public String addJob(@RequestBody JobApp newJob){
-		return "come here to add/post a job app";
-	}
-
-	// @PutMapping("/jobapps/{id}")
-	// public ResponseEntity<?> putJobApp(@RequestBody JobApp newJob,
-	// 		@PathVariable("id") long id){
-		
-	// }
-	@PutMapping("/jobapps/{id}")
-	public String putJob(@RequestBody JobApp newJob){
-		return "putting a job";
-	}
-
-	//@DeleteMapping("/jobapps/{id}")
-	// public ResponseEntity<?> deleteJobAppById(@PathVariable("id") long id) {
-
-	// }
 	@DeleteMapping("/jobapps/{id}")
-	public String deleteJobAppByID(@PathVariable("id") long id){
-		return "come here to delete job app";
+	public ResponseEntity<Void> deleteJobAppById(@PathVariable("id") Long id) {
+		if (jobAppRepository.existsById(id)) {
+            jobAppRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 	}
+	
 
 }

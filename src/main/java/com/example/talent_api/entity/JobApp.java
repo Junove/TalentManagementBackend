@@ -33,15 +33,6 @@ public class JobApp {
     @Column(name="APPLICATION_STATUS")
     String application_status;
 
-    public JobApp(int candidate_id, int job_id, String date_applied, String cover_letter, String custom_resume, String application_status){
-        this.candidate_id = candidate_id;
-        this.job_id = job_id;
-        this.date_applied = date_applied;
-        this.cover_letter = cover_letter;
-        this.custom_resume = custom_resume;
-        this.application_status = application_status;
-    }
-
     public long getId() {
         return id;
     }
