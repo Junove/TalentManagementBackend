@@ -55,7 +55,7 @@ public class CandidateRepositoryTest {
 
         assertEquals(candidate.getEmail(), repo.findFirstByEmail("johndoe@email.com").getEmail());
         assertEquals(candidate2.getEmail(), repo.findFirstByEmail("janedoe@email.com").getEmail());
-        assertNull(repo.findFirstByEmail("emaildoesn'tmatch"));
+        assertNull(repo.findFirstByEmail("email doesn'tmatch"));
 
     }
 

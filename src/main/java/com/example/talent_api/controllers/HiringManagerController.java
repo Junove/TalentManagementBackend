@@ -5,15 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.talent_api.entity.HiringManager;
 import com.example.talent_api.repository.HiringManagerRepository;
@@ -31,9 +23,20 @@ public class HiringManagerController {
         return new ResponseEntity<>((List<HiringManager>) hiringManagerRepository.findAll(), HttpStatus.OK);
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<HiringManager> getHiringManagerById(@PathVariable Long id) {
         HiringManager hiringManager = hiringManagerRepository.findById(id).orElse(null);
+        if (hiringManager != null) {
+            return new ResponseEntity<>(hiringManager, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/userId/{userId}")
+    public ResponseEntity<HiringManager> getHiringManagerByUserId(@PathVariable Long userId) {
+        HiringManager hiringManager = hiringManagerRepository.findById(userId).orElse(null);
         if (hiringManager != null) {
             return new ResponseEntity<>(hiringManager, HttpStatus.OK);
         } else {
