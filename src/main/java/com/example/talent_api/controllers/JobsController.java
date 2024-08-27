@@ -23,9 +23,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.example.talent_api.entity.Job;
 import com.example.talent_api.repository.JobRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/jobs")
-@CrossOrigin(origins = "http://localhost:3000")
 public class JobsController {
 	@Autowired
 	JobRepository repo;
