@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,18 +20,57 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.talent_api.entity.Candidate;
+import com.example.talent_api.entity.User;
 import com.example.talent_api.repository.CandidateRepository;
+import com.example.talent_api.repository.UserRepository;
 import com.example.talent_api.service.FileStorageService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/candidates")
 public class CandidateController {
 
-    @Autowired
+   @Autowired
     private CandidateRepository candidateRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private FileStorageService fileStorageService;
+
+    @PostMapping
+    public ResponseEntity<Candidate> addCandidate(
+            @RequestParam("fullName") String fullName,
+            @RequestParam("email") String email,
+            @RequestParam("address") String address,
+            @RequestParam("phone") String phone,
+            @RequestParam("userId") Long userId,
+            @RequestParam("resume") MultipartFile resumeFile) {
+
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (!userOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        try {
+            String resumePath = fileStorageService.storeFile(resumeFile);
+
+            Candidate candidate = new Candidate();
+            candidate.setFullName(fullName);
+            candidate.setEmail(email);
+            candidate.setAddress(address);
+            candidate.setPhone(phone);
+            candidate.setResume(resumePath);
+            candidate.setUser(userOptional.get());
+
+            Candidate savedCandidate = candidateRepository.save(candidate);
+
+            return new ResponseEntity<>(savedCandidate, HttpStatus.CREATED);
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     // Get all candidates
     @GetMapping
@@ -47,12 +87,6 @@ public class CandidateController {
                         .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    // Add a new candidate
-    @PostMapping
-    public ResponseEntity<Candidate> addCandidate(@RequestBody Candidate candidate) {
-        Candidate savedCandidate = candidateRepository.save(candidate);
-        return new ResponseEntity<>(savedCandidate, HttpStatus.CREATED);
-    }
 
     // Update an existing candidate
     @PutMapping("/{id}")
