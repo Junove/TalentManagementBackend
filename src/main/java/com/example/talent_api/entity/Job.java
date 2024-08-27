@@ -15,8 +15,8 @@ public class Job {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     long id;
 
-    @Column(name="manager_id")
-    int manager_id; 
+    @Column(name="Manager_ID")
+    int managerID; 
 
     @Column(name="department")
     String department;
@@ -64,8 +64,8 @@ public class Job {
 
 
 
-    public Job(int manager_id, String department, String listing_title, String date_listed, String date_closed, String job_title, String job_description, String additional_information, String listing_status){
-        this.manager_id = manager_id;
+    public Job(int managerID, String department, String listing_title, String date_listed, String date_closed, String job_title, String job_description, String additional_information, String listing_status){
+        this.managerID = managerID;
         this.department = department;
         this.listing_title = listing_title;
         this.date_listed = date_listed;
@@ -85,11 +85,11 @@ public class Job {
     }
 
     public int getManager_id() {
-        return manager_id;
+        return managerID;
     }
 
-    public void setManager_id(int manager_id) {
-        this.manager_id = manager_id;
+    public void setManager_id(int managerID) {
+        this.managerID = managerID;
     }
 
     public String getDepartment() {

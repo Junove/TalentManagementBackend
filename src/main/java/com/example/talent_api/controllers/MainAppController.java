@@ -14,8 +14,8 @@ public class MainAppController {
         return "User registered";
     }
 
-    @PostMapping("/login")
-    public String loginUser(@RequestBody String user) {
-        return "User logged in";
-    }
+    // @PostMapping("/login")
+    // public String loginUser(@RequestBody String user) {
+    //     return "User logged in";
+    // }
 }

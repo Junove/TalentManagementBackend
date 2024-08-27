@@ -1,6 +1,7 @@
 package com.example.talent_api.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,8 +46,8 @@ public class JobsController {
 
 
 	@GetMapping("/managerspec/{manager_id}")
-    public Iterable<Job> getJobByManagerId(@PathVariable("manager_id") int managerId) {
-        Iterable<Job> jobs = repo.findByManagerId(managerId);
+    public List<Job> getJobByManagerId(@PathVariable("manager_id") int managerId) {
+        List<Job> jobs = repo.findBymanagerID(managerId);
         return (jobs);
     }
 
@@ -55,7 +56,10 @@ public class JobsController {
 	@PostMapping
 	public ResponseEntity<?> addJob(@RequestBody Job newJob, UriComponentsBuilder uri) {
 
-		// Hand logic to handle verify response
+		if(newJob.getAdditional_information() == null || newJob.getJob_description() == null ||
+		newJob.getJob_title() == null || newJob.getDepartment() == null || newJob.getManager_id() == 0){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 
 		repo.save(newJob);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -66,28 +70,37 @@ public class JobsController {
 
 	}
 
-@PutMapping("/{id}")
-public ResponseEntity<?> updateJob(@RequestBody Job updatedJob, @PathVariable("id") Long id) {
-    Job existingJob = repo.findById(id);
+	@PutMapping("/{id}")
+	public ResponseEntity<Job> updateJob(@RequestBody Job updatedJob, @PathVariable("id") Long id) {
 
-    if (existingJob != null) {
-        existingJob.setDepartment(updatedJob.getDepartment());
-        existingJob.setJob_title(updatedJob.getJob_title());
-        existingJob.setJob_description(updatedJob.getJob_description());
-        existingJob.setAdditional_information(updatedJob.getAdditional_information());
-        existingJob.setListing_status(updatedJob.getListing_status());
-
-        Job savedJob = repo.save(existingJob);
-
-        return ResponseEntity.ok(savedJob);
-    } else {
-        return ResponseEntity.notFound().build();
-    }
-}
-
-
-
-	
+		Job existingJob = repo.findById(id);
+		
+		if (existingJob != null) {
+			if (updatedJob.getDepartment() != null) {
+				existingJob.setDepartment(updatedJob.getDepartment());
+			}
+			if (updatedJob.getJob_title() != null) {
+				existingJob.setJob_title(updatedJob.getJob_title());
+			}
+			if (updatedJob.getJob_description() != null) {
+				existingJob.setJob_description(updatedJob.getJob_description());
+			}
+			if (updatedJob.getAdditional_information() != null) {
+				existingJob.setAdditional_information(updatedJob.getAdditional_information());
+			}
+			if (updatedJob.getListing_status() != null) {
+				existingJob.setListing_status(updatedJob.getListing_status());
+			}
+			if(updatedJob.getListing_title() != null){
+				existingJob.setListing_title(updatedJob.getListing_title());
+			}
+		
+			repo.save(existingJob);
+			return ResponseEntity.ok(existingJob);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteJobById(@PathVariable("id") Long id) {
