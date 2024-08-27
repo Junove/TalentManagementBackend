@@ -24,9 +24,11 @@ public class Job {
     @Column(name="LISTING_TITLE")
     String listing_title;
 
+    //Format is YYYY-MM-DD HH:MM:S
     @Column(name="DATE_LISTED")
     String date_listed;
 
+    //Format is YYYY-MM-DD HH:MM:S
     @Column(name="DATE_CLOSED")
     String date_closed;
 
@@ -39,6 +41,7 @@ public class Job {
     @Column(name="ADDITIONAL_INFORMATION")
     String additional_information;
 
+    //Values are "Open" or "Closed"
     @Column(name="LISTING_STATUS")
     String listing_status;
 

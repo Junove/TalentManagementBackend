@@ -4,7 +4,9 @@ INSERT INTO `user` (`username`, `password`, `type`) VALUES
 ('candidate2', 'hashed_password2', 'candidate'),
 ('manager1', 'hashed_password3', 'hiring_manager'),
 ('manager2', 'hashed_password4', 'hiring_manager'),
-('manager3', 'hashed_password5', 'hiring_manager');
+('manager3', 'hashed_password5', 'hiring_manager'),
+('admin1', 'hashed_password_admin1', 'admin'),
+('admin2', 'hashed_password_admin2', 'admin');
 
 -- Insert data into the candidate table
 INSERT INTO `candidate` (`user_id`, `full_name`, `email`, `address`, `phone`, `resume`) VALUES
@@ -16,6 +18,11 @@ INSERT INTO `hiring_manager` (`user_id`, `full_name`, `email`, `department`, `ph
 (3, 'Alice Johnson', 'alicejohnson@example.com', 'HR', '555-123-4567'),
 (4, 'Bob Brown', 'bobbrown@example.com', 'Engineering', '555-987-6543'),
 (5, 'Carol White', 'carolwhite@example.com', 'Sales', '555-456-7890');
+
+-- Insert data into the admin table
+INSERT INTO `admin` (`user_id`, `full_name`, `email`) VALUES
+(6, 'Samuel Adams', 'samuel.adams@example.com'),
+(7, 'Emily Clark', 'emily.clark@example.com');
 
 -- Insert data into the job_listing table
 INSERT INTO `job_listing` (`manager_id`, `department`, `listing_title`, `date_listed`, `date_closed`, `job_title`, `job_description`, `additional_information`, `listing_status`) VALUES
