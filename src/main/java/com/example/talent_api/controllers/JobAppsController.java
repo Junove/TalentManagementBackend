@@ -38,8 +38,8 @@ public class JobAppsController {
 	}
 	
 	// @GetMapping("/jobapps/managerspec/{manager_id}")
-	// public ResponseEntity<List<JobApp>> getJobAppsByManagerId(@PathVariable("manager_id") Long id) {
-	// 	List<JobApp> targetApps = (List<JobApp>) jobAppRepository.findByManagerId(id);
+	// public ResponseEntity<List<JobApp>> getJobAppsByManagerId(@PathVariable("manager_id") Integer id) {
+	// 	List<JobApp> targetApps = (List<JobApp>) jobAppRepository.findAllByHiringManagerId(id);
     //     return new ResponseEntity<>(targetApps, HttpStatus.OK);	
 	// }
 
