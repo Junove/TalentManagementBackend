@@ -46,6 +46,12 @@ public class JobAppsController {
             .map(jobApp -> new ResponseEntity<>(jobApp, HttpStatus.OK))  
             .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));  
 	}
+
+	@GetMapping("/jobapps/candidatespec/{candidate_id}")
+	public ResponseEntity<List<JobApp>> getJobAppsByCandidateId(@PathVariable("candidate_id") Long id) {
+		List<JobApp> targetApps = (List<JobApp>) jobAppRepository.findAllBycandidateId(id);
+        return new ResponseEntity<>(targetApps, HttpStatus.OK);	
+	}
 	
 	@GetMapping("/jobapps/managerspec/{manager_id}")
 	public ResponseEntity<List<JobApp>> getJobAppsByManagerId(@PathVariable("manager_id") Integer id) {
