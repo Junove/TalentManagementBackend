@@ -1,7 +1,6 @@
 package com.example.talent_api.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,13 +51,16 @@ public class AdminController {
     }
     }
 
+
+    
+
     @PutMapping("/{id}")
     public ResponseEntity<Admin> updateAdmin(@PathVariable Long id, @RequestBody Admin adminDetails) {
-        Optional<Admin> admin = adminRepository.findById(id);
-        if (admin.isPresent()) {
-            adminDetails.setId(id); // Ensure the ID remains the same
-            Admin savedAdmin = adminRepository.save(adminDetails);
-            return new ResponseEntity<>(adminRepository.save(savedAdmin), HttpStatus.OK);
+        Admin admin = adminRepository.findById(id).orElse(null);
+        if (admin != null) {
+            admin.setName(adminDetails.getName());
+            admin.setEmail(adminDetails.getEmail());
+            return new ResponseEntity<>(adminRepository.save(admin), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
