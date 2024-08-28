@@ -50,6 +50,7 @@ public class Job {
         
     }
 
+
     public Job(String department, String job_title, String job_description, String additional_information){
         this.department = department;
         this.job_title = job_title;
@@ -78,6 +79,9 @@ public class Job {
         this.additional_information = additional_information;
         this.listing_status = listing_status;
     }
+
+   
+
 
     public long getId() {
         return id;

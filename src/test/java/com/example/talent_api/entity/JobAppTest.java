@@ -77,49 +77,45 @@ public class JobAppTest {
     @Test
     void testGetCustom_resume() {
         assertNotNull(jobApp);
-        assertEquals("1",jobApp.getCustom_resume());
+        assertEquals("Such a qualified resume",jobApp.getCustom_resume());
     }
 
     @Test
     void testGetDate_applied() {
         assertNotNull(jobApp);
-        assertEquals("1",jobApp.getCandidate_id());
+        assertEquals("2024-08-18 11:45:00",jobApp.getDate_applied());
     }
-
-    @Test
-    void testGetId() {
-        assertNotNull(jobApp);
-        assertEquals("1",jobApp.getCandidate_id());
-    }
-
-    @Test
-    void testGetJob_id() {
-        assertNotNull(jobApp);
-        assertEquals("1",jobApp.getCandidate_id());
-    }
+    
 
     @Test
     void testSetCover_letter() {
-        
+        assertNotNull(jobApp);
+        assertEquals("I am very qualified for this job",jobApp.getCover_letter());
+        jobApp.setCover_letter("You are not qualified");
+        assertEquals("You are not qualified",jobApp.getCover_letter());
     }
 
     @Test
     void testSetCustom_resume() {
-        
+        assertNotNull(jobApp);
+        assertEquals("Such a qualified resume",jobApp.getCustom_resume());
+        jobApp.setCustom_resume("Not the best resume");
+        assertEquals("Not the best resume",jobApp.getCustom_resume());
     }
 
     @Test
     void testSetDate_applied() {
-        
-    }
-
-    @Test
-    void testSetId() {
-        
+        assertNotNull(jobApp);
+        assertEquals("2024-08-18 11:45:00",jobApp.getDate_applied());
+        jobApp.setDate_applied("2024-08-18 11:45:01");
+        assertEquals("2024-08-18 11:45:01",jobApp.getDate_applied());
     }
 
     @Test
     void testSetJob_id() {
-        
+        assertNotNull(jobApp);
+        assertEquals(3,jobApp.getJob_id());
+        jobApp.setJob_id(5);
+        assertEquals(5,jobApp.getJob_id());
     }
 }

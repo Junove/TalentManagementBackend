@@ -1,6 +1,7 @@
 package com.example.talent_api.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class HiringManagerController {
 
     @GetMapping("/userId/{userId}")
     public ResponseEntity<HiringManager> getHiringManagerByUserId(@PathVariable Long userId) {
-        HiringManager hiringManager = hiringManagerRepository.findById(userId).orElse(null);
+        HiringManager hiringManager = hiringManagerRepository.findByuserId(userId);
         if (hiringManager != null) {
             return new ResponseEntity<>(hiringManager, HttpStatus.OK);
         } else {
@@ -51,13 +52,11 @@ public class HiringManagerController {
 
     @PutMapping("/{id}")
     public ResponseEntity<HiringManager> updateHiringManager(@PathVariable Long id, @RequestBody HiringManager hiringManagerDetails) {
-        HiringManager hiringManager = hiringManagerRepository.findById(id).orElse(null);
-        if (hiringManager != null) {
-            hiringManager.setName(hiringManagerDetails.getName());
-            hiringManager.setEmail(hiringManagerDetails.getEmail());
-            hiringManager.setDepartment(hiringManagerDetails.getDepartment());
-            hiringManager.setPhone(hiringManagerDetails.getPhone());
-            return new ResponseEntity<>(hiringManagerRepository.save(hiringManager), HttpStatus.OK);
+        Optional<HiringManager> hiringManager = hiringManagerRepository.findById(id);
+        if (hiringManager.isPresent()) {
+            hiringManagerDetails.setId(id); // Ensure the ID remains the same
+            HiringManager savedHiringManager = hiringManagerRepository.save(hiringManagerDetails);
+            return new ResponseEntity<>(hiringManagerRepository.save(savedHiringManager), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
