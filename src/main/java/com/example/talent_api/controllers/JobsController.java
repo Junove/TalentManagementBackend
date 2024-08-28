@@ -58,7 +58,6 @@ public class JobsController {
     }
 
 
-
 	@PostMapping
 	public ResponseEntity<?> addJob(@RequestBody Job newJob, UriComponentsBuilder uri) {
 
@@ -72,9 +71,6 @@ public class JobsController {
 		String formattedDate = currentDate.format(formatter);
 
 		newJob.setDate_listed(formattedDate);
-
-
-		
 
 		repo.save(newJob);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
