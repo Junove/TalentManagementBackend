@@ -13,13 +13,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.MediaType;
 
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.example.talent_api.entity.HiringManager;
 import com.example.talent_api.entity.Job;
+import com.example.talent_api.repository.HiringManagerRepository;
 import com.example.talent_api.repository.JobRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,6 +39,9 @@ public class JobsControllerTest {
 
     @MockBean
     private JobRepository jobRepository;
+
+    @MockBean
+    private HiringManagerRepository managerRepository; 
 
    
    
@@ -56,6 +62,11 @@ public void setUp() {
     job3.setId(3L); 
     job3.setManager_id(2);
     jobs.add(job3);
+
+    job = new Job("GETS", "GPT", "Adp Coder", "No Info");
+    job.setId(4L);
+    job.setManager_id(1);
+    
 }
 
     @Test
@@ -87,6 +98,47 @@ public void setUp() {
             .andExpect(jsonPath("$.department").value("Department"));
          
     }
+
+
+// @Test
+// public void testPost() throws Exception {
+    
+  
+//     when(jobRepository.save(any(Job.class))).thenReturn(job);
+
+//     mockMvc.perform(post("/jobs")
+//             .contentType(MediaType.APPLICATION_JSON)
+//             .content(new ObjectMapper().writeValueAsString(job)))
+//         .andExpect(status().isCreated())
+//         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//         .andExpect(jsonPath("$.id").value(4))
+//         .andExpect(jsonPath("$.manager_id").value(1))
+//         .andExpect(jsonPath("$.job_title").value("title1"));
+// }
+
+
+
+    @Test
+    public void testPut() throws Exception{
+        Job newJob = new Job("Update_Dep", "Update_Title", "Update_Desc", "Update_Info"); 
+        newJob.setId(4L);
+        newJob.setManager_id(1);
+        when(jobRepository.findFirstById(anyLong())).thenReturn((job));
+        when(jobRepository.save(any(Job.class))).thenReturn(newJob);
+
+        mockMvc.perform(put("/jobs/2")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(newJob)))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.id").value(4))  
+            .andExpect(jsonPath("$.department").value("Update_Dep"))  
+            .andExpect(jsonPath("$.job_title").value("Update_Title"))
+            .andExpect(jsonPath("$.job_description").value("Update_Desc"))
+            .andExpect(jsonPath("$.additional_information").value("Update_Info")); 
+    }
+
+
 
 }
 
