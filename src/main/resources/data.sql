@@ -12,7 +12,6 @@ INSERT INTO `user` (`username`, `password`, `type`) VALUES
 INSERT INTO `candidate` (`user_id`, `full_name`, `email`, `address`, `phone`, `resume`) VALUES
 (1, 'John Doe', 'johndoe@example.com', '123 Main St, Cityville', '123-456-7890', 'John Doe Resume...'),
 (2, 'Jane Smith', 'janesmith@example.com', '456 Oak St, Townsville', '987-654-3210', 'Jane Smith Resume...');
-(3, 'Mary Kate', 'marykate@example.com', '456 Oak St, Townsville', '987-654-3210', 'Mary Kate Resume...');
 
 -- Insert data into the hiring_manager table
 INSERT INTO `hiring_manager` (`user_id`, `full_name`, `email`, `department`, `phone`) VALUES

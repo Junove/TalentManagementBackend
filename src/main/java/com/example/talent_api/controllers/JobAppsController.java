@@ -1,10 +1,10 @@
 package com.example.talent_api.controllers;
 
 import java.io.IOException;
-import java.net.URI;
+import java.util.List;
+import java.util.Optional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,17 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
+
 
 import com.example.talent_api.service.FileStorageService;
 
-import java.util.List;
-
-import com.example.talent_api.entity.Candidate;
-import com.example.talent_api.entity.Job;
 import com.example.talent_api.entity.JobApp;
-import com.example.talent_api.entity.User;
 import com.example.talent_api.repository.JobAppRepository;
 
 @CrossOrigin
@@ -74,11 +68,43 @@ public class JobAppsController {
 		return new ResponseEntity<>(targetApps, HttpStatus.OK);	
 	}
 
-	@PostMapping("/jobapps")
-	public ResponseEntity<JobApp> addJobApp(@RequestBody JobApp newJobApp) {
-		JobApp savedJobApp = jobAppRepository.save(newJobApp);
-        return new ResponseEntity<>(savedJobApp, HttpStatus.CREATED);
-	}
+    @PostMapping("/jobapps")
+    public ResponseEntity<JobApp> addApplication(
+			@RequestParam("cover_letter") MultipartFile coverLetterFile,
+            @RequestParam("custom_resume") MultipartFile resumeFile,
+            @RequestParam("application_status") String applicationStatus,
+            @RequestParam("candidate_id") int candId,
+            @RequestParam("job_id") int jobId) {
+
+		LocalDate currentDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String formattedDate = currentDate.format(formatter);
+        
+        try {
+            String resumePath = fileStorageService.storeFile(resumeFile);
+			String coverLetterPath = fileStorageService.storeFile(coverLetterFile);
+
+            JobApp application = new JobApp();
+            application.setDate_applied(formattedDate);
+			application.setCover_letter(coverLetterPath);
+			application.setCustom_resume(resumePath);
+			application.setApplication_status(applicationStatus);
+			application.setCandidate_id(candId);
+			application.setJob_id(jobId);
+
+            JobApp savedApplication = jobAppRepository.save(application);
+
+            return new ResponseEntity<>(savedApplication, HttpStatus.CREATED);
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+	// @PostMapping("/jobapps")
+	// public ResponseEntity<JobApp> addJobApp(@RequestBody JobApp newJobApp) {
+	// 	JobApp savedJobApp = jobAppRepository.save(newJobApp);
+    //     return new ResponseEntity<>(savedJobApp, HttpStatus.CREATED);
+	// }
 
 	@PutMapping("/jobapps/{id}")
 	public ResponseEntity<JobApp> putJobApp(@RequestBody JobApp targetApp, @PathVariable("id") Long id){
