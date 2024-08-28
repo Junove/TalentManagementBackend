@@ -77,7 +77,7 @@ public class JobAppsController {
 
     @PostMapping("/jobapps")
     public ResponseEntity<JobApp> addApplication(
-            @RequestParam("cover_letter") MultipartFile coverLetterFile,
+			@RequestParam("cover_letter") MultipartFile coverLetterFile,
             @RequestParam("custom_resume") MultipartFile resumeFile,
             @RequestParam("application_status") String applicationStatus,
             @RequestParam("candidate_id") int candId,
