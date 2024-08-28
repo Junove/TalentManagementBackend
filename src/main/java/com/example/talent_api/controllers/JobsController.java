@@ -24,8 +24,6 @@ import com.example.talent_api.repository.JobRepository;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.example.talent_api.entity.Job;
-import com.example.talent_api.repository.JobRepository;
 
 @CrossOrigin
 @RestController

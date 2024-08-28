@@ -1,9 +1,5 @@
 package com.example.talent_api.controllers;
 
-import java.io.IOException;
-import java.net.URI;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,20 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
+
 
 import com.example.talent_api.service.FileStorageService;
 
-import java.util.List;
 
-import com.example.talent_api.entity.Candidate;
-import com.example.talent_api.entity.Job;
+
 import com.example.talent_api.entity.JobApp;
-import com.example.talent_api.entity.User;
 import com.example.talent_api.repository.JobAppRepository;
 
 @CrossOrigin
