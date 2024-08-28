@@ -33,6 +33,7 @@ public class JobApp {
     @Column(name="APPLICATION_STATUS")
     String application_status;
 
+
     public long getId() {
         return id;
     }
@@ -45,7 +46,7 @@ public class JobApp {
         return candidateId;
     }
 
-    public void setCandidate_id(int candidate_id) {
+    public void setCandidate_id(int candidateId) {
         this.candidateId = candidateId;
     }
 
