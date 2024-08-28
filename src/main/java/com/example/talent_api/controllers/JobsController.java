@@ -24,8 +24,7 @@ import com.example.talent_api.repository.JobRepository;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.example.talent_api.entity.Job;
-import com.example.talent_api.repository.JobRepository;
+
 
 @CrossOrigin
 @RestController
@@ -65,6 +64,9 @@ public class JobsController {
 		if(newJob.getAdditional_information() == null || newJob.getJob_description() == null ||
 		newJob.getJob_title() == null || newJob.getDepartment() == null || newJob.getManager_id() == 0){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+
+
 		}
 
 		LocalDate currentDate = LocalDate.now();
@@ -72,6 +74,7 @@ public class JobsController {
 		String formattedDate = currentDate.format(formatter);
 
 		newJob.setDate_listed(formattedDate);
+		newJob.setListing_status("Active");
 
 
 		
