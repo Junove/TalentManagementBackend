@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.talent_api.entity.Candidate;
 import com.example.talent_api.entity.HiringManager;
 import com.example.talent_api.repository.HiringManagerRepository;
 
@@ -36,7 +37,7 @@ public class HiringManagerController {
 
     @GetMapping("/userId/{userId}")
     public ResponseEntity<HiringManager> getHiringManagerByUserId(@PathVariable Long userId) {
-        HiringManager hiringManager = hiringManagerRepository.findById(userId).orElse(null);
+        HiringManager hiringManager = hiringManagerRepository.findByuserId(userId);
         if (hiringManager != null) {
             return new ResponseEntity<>(hiringManager, HttpStatus.OK);
         } else {
