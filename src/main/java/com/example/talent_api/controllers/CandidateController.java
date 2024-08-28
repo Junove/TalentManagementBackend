@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.talent_api.entity.HiringManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,7 +79,15 @@ public class CandidateController {
         List<Candidate> candidates = (List<Candidate>)candidateRepository.findAll();
         return new ResponseEntity<>(candidates, HttpStatus.OK);
     }
-
+    @GetMapping("/userId/{userId}")
+    public ResponseEntity<Candidate> getCandidateByUserId(@PathVariable Long userId) {
+        Candidate candidate = candidateRepository.findByuserId(userId);
+        if (candidate != null) {
+            return new ResponseEntity<>(candidate, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
     // Get candidate by ID
     @GetMapping("/{id}")
     public ResponseEntity<Candidate> getCandidateById(@PathVariable("id") long id) {

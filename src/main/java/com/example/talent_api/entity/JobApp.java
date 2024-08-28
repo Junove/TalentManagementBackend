@@ -16,7 +16,7 @@ public class JobApp {
     long id;
 
     @Column(name="CANDIDATE_ID")
-    int candidate_id; 
+    int candidateId; 
 
     @Column(name="JOB_ID")
     int jobId; 
@@ -33,6 +33,7 @@ public class JobApp {
     @Column(name="APPLICATION_STATUS")
     String application_status;
 
+
     public long getId() {
         return id;
     }
@@ -42,11 +43,11 @@ public class JobApp {
     }
 
     public int getCandidate_id() {
-        return candidate_id;
+        return candidateId;
     }
 
-    public void setCandidate_id(int candidate_id) {
-        this.candidate_id = candidate_id;
+    public void setCandidate_id(int candidateId) {
+        this.candidateId = candidateId;
     }
 
     public int getJob_id() {
