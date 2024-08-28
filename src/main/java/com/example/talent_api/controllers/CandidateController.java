@@ -81,7 +81,7 @@ public class CandidateController {
     }
     @GetMapping("/userId/{userId}")
     public ResponseEntity<Candidate> getCandidateByUserId(@PathVariable Long userId) {
-        Candidate candidate = candidateRepository.findById(userId).orElse(null);
+        Candidate candidate = candidateRepository.findByuserId(userId);
         if (candidate != null) {
             return new ResponseEntity<>(candidate, HttpStatus.OK);
         } else {
