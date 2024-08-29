@@ -73,14 +73,14 @@ public class JobsController {
 		String formattedDate = currentDate.format(formatter);
 
 		newJob.setDate_listed(formattedDate);
-		newJob.setListing_status("Active");
+		newJob.setListing_status("Open");
 
 		repo.save(newJob);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(newJob.getId()).toUri();
 		ResponseEntity<?> response = ResponseEntity.created(location).build();
 
-		return response;
+		return new ResponseEntity<>(newJob, HttpStatus.CREATED);
 
 	}
 
