@@ -106,23 +106,105 @@ public class JobAppsController {
     //     return new ResponseEntity<>(savedJobApp, HttpStatus.CREATED);
 	// }
 
-	@PutMapping("/jobapps/{id}")
-	public ResponseEntity<JobApp> putJobApp(@RequestBody JobApp targetApp, @PathVariable("id") Long id){
+	// @PutMapping("/jobapps/{id}")
+	// public ResponseEntity<JobApp> putJobApp(@RequestBody JobApp targetApp, @PathVariable("id") Long id){
+	// 	return jobAppRepository.findById(id)
+    //         .map(currJobApp -> {
+    //             currJobApp.setCandidate_id(targetApp.getCandidate_id()); 
+    //             currJobApp.setJob_id(targetApp.getJob_id()); 
+	// 			currJobApp.setDate_applied(targetApp.getDate_applied());
+	// 			currJobApp.setCover_letter(targetApp.getCover_letter());
+	// 			currJobApp.setCustom_resume(targetApp.getCustom_resume());
+	// 			currJobApp.setApplication_status(targetApp.getApplication_status());
+                
+    //             JobApp savedJobApp = jobAppRepository.save(currJobApp);
+    //             return new ResponseEntity<>(savedJobApp, HttpStatus.OK);
+    //         })
+    //         .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	// }
+
+    @PutMapping("/jobapps/{id}")
+	public ResponseEntity<JobApp> putJobApp(@RequestParam(value = "cover_letter") MultipartFile coverLetterFile,
+                                            @RequestParam(value = "custom_resume") MultipartFile resumeFile,
+                                            @RequestParam("application_status") String applicationStatus,
+                                            @RequestParam("candidate_id") int candId,
+                                            @RequestParam("job_id") int jobId, 
+                                            @PathVariable("id") Long id){
+        
 		return jobAppRepository.findById(id)
             .map(currJobApp -> {
-                currJobApp.setCandidate_id(targetApp.getCandidate_id()); 
-                currJobApp.setJob_id(targetApp.getJob_id()); 
-				currJobApp.setDate_applied(targetApp.getDate_applied());
-				currJobApp.setCover_letter(targetApp.getCover_letter());
-				currJobApp.setCustom_resume(targetApp.getCustom_resume());
-				currJobApp.setApplication_status(targetApp.getApplication_status());
-                
+                currJobApp.setCandidate_id(candId); 
+                currJobApp.setJob_id(jobId); 
+
+                LocalDate currentDate = LocalDate.now();
+		        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		        String formattedDate = currentDate.format(formatter);
+				currJobApp.setDate_applied(formattedDate);
+            
+                String resumePath = "";
+                String coverLetterPath = "";
+                try {
+                    resumePath = fileStorageService.storeFile(resumeFile);
+                    coverLetterPath = fileStorageService.storeFile(coverLetterFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                currJobApp.setCover_letter(coverLetterPath);
+                currJobApp.setCustom_resume(resumePath);
+                currJobApp.setApplication_status(applicationStatus);                    
                 JobApp savedJobApp = jobAppRepository.save(currJobApp);
                 return new ResponseEntity<>(savedJobApp, HttpStatus.OK);
+                
             })
             .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
+// 	@PutMapping("/jobapps/{id}")
+//     public ResponseEntity<JobApp> updateApplication(
+//         @PathVariable("id") Long id,
+//         @RequestParam(value = "cover_letter", required = false) MultipartFile coverLetterFile,
+//         @RequestParam(value = "custom_resume", required = false) MultipartFile resumeFile,
+//         @RequestParam("application_status") String applicationStatus,
+//         @RequestParam("candidate_id") int candId,
+//         @RequestParam("job_id") int jobId) {
+
+//     LocalDate currentDate = LocalDate.now();
+//     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//     String formattedDate = currentDate.format(formatter);
+
+//     try {
+//         Optional<JobApp> optionalJobApp = jobAppRepository.findById(id);
+
+//         if (optionalJobApp.isPresent()) {
+//             JobApp currJobApp = optionalJobApp.get();
+
+//             // Update fields
+//             currJobApp.setCandidate_id(candId);
+//             currJobApp.setJob_id(jobId);
+//             currJobApp.setDate_applied(formattedDate);
+//             currJobApp.setApplication_status(applicationStatus);
+
+//             // Handle file uploads if provided
+//             if (resumeFile != null && !resumeFile.isEmpty()) {
+//                 String resumePath = fileStorageService.storeFile(resumeFile);
+//                 currJobApp.setCustom_resume(resumePath);
+//             }
+
+//             if (coverLetterFile != null && !coverLetterFile.isEmpty()) {
+//                 String coverLetterPath = fileStorageService.storeFile(coverLetterFile);
+//                 currJobApp.setCover_letter(coverLetterPath);
+//             }
+
+//             // Save the updated JobApp
+//             JobApp updatedJobApp = jobAppRepository.save(currJobApp);
+//             return new ResponseEntity<>(updatedJobApp, HttpStatus.OK);
+//         } else {
+//             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//         }
+//     } catch (IOException e) {
+//         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//     }
+// }
 
 	@DeleteMapping("/jobapps/{id}")
 	public ResponseEntity<Void> deleteJobAppById(@PathVariable("id") Long id) {
