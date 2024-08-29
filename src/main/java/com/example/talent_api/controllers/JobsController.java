@@ -73,7 +73,7 @@ public class JobsController {
 		String formattedDate = currentDate.format(formatter);
 
 		newJob.setDate_listed(formattedDate);
-		newJob.setListing_status("Active");
+		newJob.setListing_status("Open");
 
 		repo.save(newJob);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -86,35 +86,11 @@ public class JobsController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Job> updateJob(@RequestBody Job updatedJob, @PathVariable("id") Long id) {
-
-		Job existingJob = repo.findFirstById(id);
-		
-		if (existingJob != null) {
-			if (updatedJob.getDepartment() != null) {
-				existingJob.setDepartment(updatedJob.getDepartment());
-			}
-			if (updatedJob.getJob_title() != null) {
-				existingJob.setJob_title(updatedJob.getJob_title());
-			}
-			if (updatedJob.getJob_description() != null) {
-				existingJob.setJob_description(updatedJob.getJob_description());
-			}
-			if (updatedJob.getAdditional_information() != null) {
-				existingJob.setAdditional_information(updatedJob.getAdditional_information());
-			}
-			if (updatedJob.getListing_status() != null) {
-				existingJob.setListing_status(updatedJob.getListing_status());
-			}
-			if(updatedJob.getListing_title() != null){
-				existingJob.setListing_title(updatedJob.getListing_title());
-			}
-			existingJob.setDate_closed(updatedJob.getDate_closed());
-			if(updatedJob.getDate_listed() != null){
-				existingJob.setDate_listed(updatedJob.getDate_listed());
-			}
-		
-			repo.save(existingJob);
-			return ResponseEntity.ok(existingJob);
+        Job existingJob = repo.findFirstById(id);
+        if (existingJob != null) {
+            updatedJob.setId(id); // Ensure the ID remains the same
+            Job savedJob = repo.save(updatedJob);
+			return new ResponseEntity<>(savedJob, HttpStatus.OK);
 		} else {
 			return ResponseEntity.notFound().build();
 		}
