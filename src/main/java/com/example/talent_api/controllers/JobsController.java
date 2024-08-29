@@ -80,7 +80,7 @@ public class JobsController {
 				.buildAndExpand(newJob.getId()).toUri();
 		ResponseEntity<?> response = ResponseEntity.created(location).build();
 
-		return response;
+		return new ResponseEntity<>(newJob, HttpStatus.CREATED);
 
 	}
 

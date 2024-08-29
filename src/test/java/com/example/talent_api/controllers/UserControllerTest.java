@@ -2,6 +2,11 @@ package com.example.talent_api.controllers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -19,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.example.talent_api.entity.Admin;
 import com.example.talent_api.entity.User;
 import com.example.talent_api.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -131,5 +137,25 @@ public class UserControllerTest {
             .andExpect(jsonPath("$.type").value("candidate")); 
     }
 
+    @Test
+    public void testDelete() throws Exception {
 
+        when(userRepository.existsById(4L)).thenReturn(true);
+        doNothing().when(userRepository).deleteById(4L);
+
+        mockMvc.perform(delete("/users/4"))
+            .andExpect(status().isNoContent()); 
+
+        verify(userRepository, times(1)).deleteById(4L);
+    }
+
+    @Test
+    public void testDeleteUser_NotFound() throws Exception {
+        when(userRepository.existsById(4L)).thenReturn(false);
+
+        mockMvc.perform(delete("/users/4"))
+            .andExpect(status().isNotFound()); 
+
+        verify(userRepository, never()).deleteById(4L);
+    }
 }
